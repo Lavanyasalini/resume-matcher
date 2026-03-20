@@ -12,16 +12,24 @@ public class MatchController {
     @Autowired
     private AIService aiService;
 
+    // ✅ Root endpoint (fixes your Railway error page)
+    @GetMapping("/")
+    public String home() {
+        return "Resume Matcher API is running! 🚀 Use /api/match to test.";
+    }
+
+    // ✅ Health check (already good)
+    @GetMapping("/health")
+    public String health() {
+        return "OK";
+    }
+
+    // ✅ Main API
     @PostMapping("/match")
     public String match(@RequestBody Map<String, String> payload) {
         String resume = payload.get("resume");
         String job = payload.get("job");
 
         return aiService.getMatchScore(resume, job);
-    }
-
-    @GetMapping("/health")
-    public String health() {
-        return "OK";
     }
 }
